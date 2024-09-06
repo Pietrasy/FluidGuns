@@ -29,6 +29,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ItemProperties")
 	FName ItemName = "Item";
 
+	// What action will be call after pick up item.
 	UPROPERTY(Instanced, EditAnywhere, BlueprintReadWrite, Category= "Actions")
 	TObjectPtr<UFG_Action> Action;
 };

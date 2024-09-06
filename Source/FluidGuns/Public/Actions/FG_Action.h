@@ -12,7 +12,7 @@ class UFG_PDA_Item;
 /**
  * Action is "lambda" in data assets that calls Execute() function which can be overridden.
  */
-UCLASS()
+UCLASS(EditInlineNew, BlueprintType, Blueprintable)
 class FLUIDGUNS_API UFG_Action : public UObject
 {
 	GENERATED_BODY()
