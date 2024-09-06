@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Copyright Pietras
 
 #pragma once
 
@@ -7,6 +7,7 @@
 #include "Engine/DataAsset.h"
 #include "FG_PDA_Item.generated.h"
 
+class UFG_Action;
 /**
  * Base class of item's data assets.
  */
@@ -27,4 +28,7 @@ public:
 	// Name for item.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ItemProperties")
 	FName ItemName = "Item";
+
+	UPROPERTY(Instanced, EditAnywhere, BlueprintReadWrite, Category= "Actions")
+	TObjectPtr<UFG_Action> Action;
 };

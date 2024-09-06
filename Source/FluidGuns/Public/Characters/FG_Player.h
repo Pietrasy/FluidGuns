@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
+#include "Interface/FG_ActionInterface.h"
 #include "FG_Player.generated.h"
 
 UCLASS()
-class FLUIDGUNS_API AFG_Player : public ACharacter
+class FLUIDGUNS_API AFG_Player : public ACharacter, public IFG_ActionInterface
 {
 	GENERATED_BODY()
 
