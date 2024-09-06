@@ -10,7 +10,7 @@ class AFG_Player;
 class UFG_PDA_Item;
 
 /**
- * Action is "lambda in data assets" that calls Execute() function which can be overridden.
+ * Action is "lambda" in data assets that calls Execute() function which can be overridden.
  */
 UCLASS()
 class FLUIDGUNS_API UFG_Action : public UObject
