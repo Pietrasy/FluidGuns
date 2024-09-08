@@ -31,10 +31,10 @@ private:
 	void CreateAndAttachComponent();
 
 	// Arrow component to indicate front of spawner.
-	UPROPERTY(VisibleInstanceOnly, Category="Spawner")
+	UPROPERTY(VisibleDefaultsOnly, Category="Spawner")
 	TObjectPtr<UArrowComponent> ArrowComponent = nullptr;
 
 	// Sphere component as collision for spawner.
-	UPROPERTY(VisibleInstanceOnly, Category="Spawner")
+	UPROPERTY(VisibleDefaultsOnly, Category="Spawner")
 	TObjectPtr<USphereComponent> SphereCollision = nullptr;
 };

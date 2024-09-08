@@ -11,6 +11,8 @@ AFG_Spawner::AFG_Spawner()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	
+	CreateAndAttachComponent();
 }
 
 void AFG_Spawner::CreateAndAttachComponent()

@@ -5,7 +5,7 @@
 
 #include "Characters/FG_Player.h"
 #include "Data/FG_PDA_FluidGun.h"
-#include "Interface/FG_ActionInterface.h"
+#include "Interfaces/FG_ActionInterface.h"
 
 void UFG_AddFluidGunAction::Execute_Implementation(UFG_PDA_Item* Item, AFG_Player* Player)
 {

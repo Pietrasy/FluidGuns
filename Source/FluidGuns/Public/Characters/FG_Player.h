@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
-#include "Interface/FG_ActionInterface.h"
+#include "Interfaces/FG_ActionInterface.h"
 #include "FG_Player.generated.h"
 
 UCLASS()
@@ -19,5 +19,5 @@ public:
 
 	// Gameplay tag of character.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player")
-	FGameplayTag CharacterGameplayTag = FGameplayTag::EmptyTag;
+	FGameplayTagContainer CharacterGameplayTag = FGameplayTagContainer::EmptyContainer;
 };
