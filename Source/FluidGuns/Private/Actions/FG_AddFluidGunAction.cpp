@@ -14,5 +14,5 @@ void UFG_AddFluidGunAction::Execute_Implementation(UFG_PDA_Item* Item, AFG_Playe
 	// Check if data asset is fluid gun's data.
 	FluidGun = CastChecked<UFG_PDA_FluidGun>(Item);
 	// Call interface function.
-	IFG_ActionInterface::Execute_AddGun(Player->StaticClass(), FluidGun);
+	IFG_ActionInterface::Execute_AddGun(Player, FluidGun);
 }

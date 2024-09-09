@@ -5,29 +5,10 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Data/FG_PDA_FluidGun.h"
+#include "Structures/FG_FFluidGunStructure.h"
 #include "FG_FluidGunComponent.generated.h"
 
-USTRUCT(BlueprintType)
-struct FFluidGun
-{
-	GENERATED_BODY()
-
-	// Base structure for fluid gun.
-	UPROPERTY(BlueprintReadWrite)
-	FFluidGunData FluidGunData;
-
-	// Static mesh for fluid gun.
-	UPROPERTY(BlueprintReadWrite)
-	TObjectPtr<UStaticMesh> StaticMesh = nullptr;
-
-	// Gameplay tag for fluid gun.
-	UPROPERTY(BlueprintReadWrite)
-	FGameplayTag FluidGunGameplayTag = FGameplayTag::EmptyTag;
-
-	// Name for fluid gun.
-	UPROPERTY(BlueprintReadWrite)
-	FName FluidGunName;
-};
+class AFG_FluidGun;
 
 UCLASS(Blueprintable)
 class FLUIDGUNS_API UFG_FluidGunComponent : public UActorComponent
@@ -42,8 +23,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA);
 
+	// 
+	UFUNCTION(BlueprintCallable)
+	void DrawFluidGun(const FG_FFluidGunStructure& FluidGun);
+
 private:
 	// Array of player's fluid guns.
 	UPROPERTY(BlueprintReadOnly, Category="Component|FluidGun", meta=(AllowPrivateAccess))
-	TArray<FFluidGun> OwnedGuns;
+	TArray<FG_FFluidGunStructure> OwnedGuns;
+
+	// Currently draw gun.
+	UPROPERTY(BlueprintReadWrite, Category="Component|FluidGun", meta=(AllowPrivateAccess))
+	TObjectPtr<AFG_FluidGun> CurrentGun = nullptr;
 };

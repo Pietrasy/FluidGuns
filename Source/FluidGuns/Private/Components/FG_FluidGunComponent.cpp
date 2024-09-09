@@ -3,6 +3,8 @@
 
 #include "Components/FG_FluidGunComponent.h"
 
+#include "Actors/FG_FluidGun.h"
+
 // Sets default values for this component's properties
 UFG_FluidGunComponent::UFG_FluidGunComponent()
 {
@@ -13,7 +15,7 @@ UFG_FluidGunComponent::UFG_FluidGunComponent()
 
 void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 {
-	for (FFluidGun& FluidGun : OwnedGuns)
+	for (FG_FFluidGunStructure& FluidGun : OwnedGuns)
 	{
 		// Check if gun is already in array.
 		if (!FluidGun.FluidGunGameplayTag.MatchesTag(FluidGun.FluidGunGameplayTag))
@@ -31,5 +33,13 @@ void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 
 		// Add structure to array.
 		OwnedGuns.Add(FluidGun);
+	}
+}
+
+void UFG_FluidGunComponent::DrawFluidGun(const FG_FFluidGunStructure& FluidGun)
+{
+	if(!CurrentGun->FluidGunProperties.FluidGunGameplayTag.MatchesTag(FluidGun.FluidGunGameplayTag))
+	{
+		CurrentGun->UpdateGun(FluidGun);
 	}
 }
