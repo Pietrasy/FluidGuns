@@ -11,9 +11,9 @@ AFG_FluidGun::AFG_FluidGun()
 	FluidGunStaticMesh->SetCollisionProfileName("NoCollision", false);
 }
 
-void AFG_FluidGun::UpdateGun(const FG_FFluidGunStructure& FluidGun)
+void AFG_FluidGun::UpdateGun(const FFluidGunProperties& FluidGun)
 {
-	FluidGunProperties = FluidGun;
+	FluidGunProperties = FluidGun.FluidGunData;
 	FluidGunName = FluidGun.FluidGunName;
 	FluidGunGameplayTag = FluidGun.FluidGunGameplayTag;
 	FluidGunStaticMesh->SetStaticMesh(FluidGun.StaticMesh);

@@ -2,18 +2,19 @@
 
 #pragma once
 
-#include "Data/FG_PDA_FluidGun.h"
+#include "Structures/FG_FFluidGunParameters.h"
+#include "GameplayTags.h"
 
-#include "FG_FFluidGunStructure.generated.h"
+#include "FG_FFluidGunProperties.generated.h"
 
 USTRUCT(BlueprintType)
-struct FG_FFluidGunStructure
+struct FFluidGunProperties
 {
 	GENERATED_BODY()
 
 	// Base structure for fluid gun.
 	UPROPERTY(BlueprintReadWrite)
-	FFluidGunData FluidGunData;
+	FFluidGunParameters FluidGunData;
 
 	// Static mesh for fluid gun.
 	UPROPERTY(BlueprintReadWrite)

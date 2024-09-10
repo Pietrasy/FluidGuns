@@ -16,7 +16,7 @@ void UFG_FluidGunComponent::BeginPlay()
 
 void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 {
-	for (FG_FFluidGunStructure& FluidGun : OwnedGuns)
+	for (FFluidGunProperties& FluidGun : OwnedGuns)
 	{
 		// Check if gun is already in array.
 		if (!FluidGun.FluidGunGameplayTag.MatchesTag(FluidGun.FluidGunGameplayTag))
@@ -37,7 +37,7 @@ void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 	}
 }
 
-void UFG_FluidGunComponent::DrawFluidGun(const FG_FFluidGunStructure& FluidGun)
+void UFG_FluidGunComponent::DrawFluidGun(const FFluidGunProperties& FluidGun)
 {
 	// Check if given gun isn't the same as CurrentGun.
 	if(!CurrentGun->FluidGunGameplayTag.MatchesTag(FluidGun.FluidGunGameplayTag))

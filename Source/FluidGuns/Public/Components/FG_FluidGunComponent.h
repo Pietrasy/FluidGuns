@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Data/FG_PDA_FluidGun.h"
-#include "Structures/FG_FFluidGunStructure.h"
+#include "Structures/FG_FFluidGunProperties.h"
 #include "FG_FluidGunComponent.generated.h"
 
 class AFG_Player;
@@ -27,7 +27,7 @@ public:
 
 	// Draw fluid gun and set as CurrentGun.
 	UFUNCTION(BlueprintCallable)
-	void DrawFluidGun(const FG_FFluidGunStructure& FluidGun);
+	void DrawFluidGun(const FFluidGunProperties& FluidGun);
 
 	// Fluid gun's data to update its widget.
 	UPROPERTY(BlueprintAssignable)
@@ -36,7 +36,7 @@ public:
 private:
 	// Array of player's fluid guns.
 	UPROPERTY(BlueprintReadOnly, Category="Component|FluidGun", meta=(AllowPrivateAccess))
-	TArray<FG_FFluidGunStructure> OwnedGuns;
+	TArray<FFluidGunProperties> OwnedGuns;
 
 	// Currently draw gun.
 	UPROPERTY(BlueprintReadWrite, Category="Component|FluidGun", meta=(AllowPrivateAccess))
