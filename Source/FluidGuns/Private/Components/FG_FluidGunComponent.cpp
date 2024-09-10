@@ -4,13 +4,14 @@
 #include "Components/FG_FluidGunComponent.h"
 
 #include "Actors/FG_FluidGun.h"
+#include "Characters/FG_Player.h"
 
-// Sets default values for this component's properties
-UFG_FluidGunComponent::UFG_FluidGunComponent()
+void UFG_FluidGunComponent::BeginPlay()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	// Get owner of this component and set as PlayerCharacter.
+	PlayerCharacter = CastChecked<AFG_Player>(GetOwner());
+	
+	Super::BeginPlay();
 }
 
 void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
@@ -31,15 +32,18 @@ void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 			return;
 		}
 
-		// Add structure to array.
+		// Add fluid gun's structure to array.
 		OwnedGuns.Add(FluidGun);
 	}
 }
 
 void UFG_FluidGunComponent::DrawFluidGun(const FG_FFluidGunStructure& FluidGun)
 {
-	if(!CurrentGun->FluidGunProperties.FluidGunGameplayTag.MatchesTag(FluidGun.FluidGunGameplayTag))
+	// Check if given gun isn't the same as CurrentGun.
+	if(!CurrentGun->FluidGunGameplayTag.MatchesTag(FluidGun.FluidGunGameplayTag))
 	{
+		// Overwrite fluid gun's data. 
 		CurrentGun->UpdateGun(FluidGun);
+		OnGunUpdate.Broadcast(FluidGun.FluidGunData.Pressure, FluidGun.FluidGunData.MaxPressure);
 	}
 }
