@@ -23,6 +23,7 @@ void AFG_Spawner::CreateAndAttachComponent()
 
 	// Create static mesh component and attach it to sphere component.
 	ItemStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshComponent");
+	ItemStaticMesh->SetCollisionProfileName("NoCollision", false);
 	ItemStaticMesh->SetupAttachment(SphereCollision);
 
 	// Create arrow component and attach it to sphere component.
