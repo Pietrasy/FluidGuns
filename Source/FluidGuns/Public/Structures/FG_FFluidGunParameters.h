@@ -8,7 +8,7 @@ struct FFluidGunParameters
 	GENERATED_BODY()
 
 	// Multiplied by BaseRange determines Range.
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	float Pressure = 0.f;
 	
 	// Maximum Pressure value for fluid gun.

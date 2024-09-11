@@ -7,6 +7,7 @@
 #include "Structures/FG_FFluidGunParameters.h"
 #include "FG_PDA_FluidGun.generated.h"
 
+class UFG_Addon;
 /**
  * Class for fluid gun's data assets.
  */
@@ -19,6 +20,10 @@ public:
 	// Base structure for fluid gun.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="FluidGun")
 	FFluidGunParameters FluidGunData;
+
+	// Array of addons for fluid gun.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="FLuidGun")
+	TArray<TSubclassOf<UFG_Addon>> Addons;
 
 private:
 	virtual void PostLoad() override;

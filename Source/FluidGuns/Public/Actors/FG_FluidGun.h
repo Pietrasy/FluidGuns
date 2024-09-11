@@ -8,6 +8,8 @@
 #include "Structures/FG_FFluidGunProperties.h"
 #include "FG_FluidGun.generated.h"
 
+class UFG_Addon;
+
 UCLASS()
 class FLUIDGUNS_API AFG_FluidGun : public AActor
 {
@@ -16,22 +18,37 @@ class FLUIDGUNS_API AFG_FluidGun : public AActor
 public:
 	AFG_FluidGun();
 	
-	// Set gun's properties.
+	// Set fluid gun properties.
 	UFUNCTION()
 	void UpdateGun(const FFluidGunProperties& FluidGun);
 
+	// Fluid gun gameplay tag.
 	UPROPERTY(VisibleAnywhere, Category="FluidGun")
 	FGameplayTag FluidGunGameplayTag = FGameplayTag::EmptyTag;
 
-private:
-	UPROPERTY(VisibleInstanceOnly, Category="FluidGun")
-	FFluidGunParameters FluidGunProperties;
+protected:
+	// Pressure, range, fire rate, etc.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,  Category="FluidGun")
+	FFluidGunParameters FluidGunParameters;
+
+	// Addons that have been added to fluid gun.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,  Category="FluidGun|Addon")
+	TArray<TObjectPtr<UFG_Addon>> Addons;
+
+	// Get addon from Addons array by gameplay tag.
+	UFUNCTION(BlueprintCallable, Category="FluidGun|Addon", meta=(ReturnDisplayName="Addon"))
+	UFG_Addon* GetAddon(const FGameplayTag AddonTag);
 	
+private:
 	UPROPERTY(VisibleAnywhere, Category="FluidGun")
 	TObjectPtr<UStaticMeshComponent> FluidGunStaticMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category="FluidGun")
 	FName FluidGunName;
 
+	// Add addon to Addons array.
+	void AddAddon(const TSubclassOf<UFG_Addon>& AddonClass);
 
+	// Remove all addons in Array.
+	void RemoveAddons();
 };

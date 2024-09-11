@@ -7,6 +7,8 @@
 
 #include "FG_FFluidGunProperties.generated.h"
 
+class UFG_Addon;
+
 USTRUCT(BlueprintType)
 struct FFluidGunProperties
 {
@@ -27,4 +29,8 @@ struct FFluidGunProperties
 	// Name for fluid gun.
 	UPROPERTY(BlueprintReadWrite)
 	FName FluidGunName;
+
+	// Addons for fluid gun.
+	UPROPERTY(BlueprintReadWrite)
+	TArray<TSubclassOf<UFG_Addon>> Addons;
 };
