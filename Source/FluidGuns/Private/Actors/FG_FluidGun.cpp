@@ -3,7 +3,6 @@
 
 #include "Actors/FG_FluidGun.h"
 
-#include "Components/FG_Addon.h"
 #include "Data/FG_PDA_Tank.h"
 
 AFG_FluidGun::AFG_FluidGun()
@@ -21,7 +20,7 @@ AFG_FluidGun::AFG_FluidGun()
 
 void AFG_FluidGun::UpdateGun(const FFluidGunProperties& FluidGun)
 {
-
+	
 	FluidGunStaticMesh->SetStaticMesh(nullptr);
 	
 	FluidGunParameters = FluidGun.FluidGunData;

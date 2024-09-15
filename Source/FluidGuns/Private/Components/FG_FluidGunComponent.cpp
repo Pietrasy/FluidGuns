@@ -24,29 +24,15 @@ void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 		SpawnCurrentFluidGun();
 		PopulateFluidGunStructure(FluidGun, FluidGunDA);
 		OwnedGuns.Add(FluidGun);
-		UE_LOG(LogTemp, Warning, TEXT("First gun"));
 		return;
 	}
-
-	for (FFluidGunProperties& FluidGunProperties : OwnedGuns)
+	
+	// Check if gun is already in array.
+	if (!OwnedGuns.Contains(PopulateFluidGunStructure(FluidGun, FluidGunDA)))
 	{
-		if (FluidGunProperties.FluidGunGameplayTag.MatchesTag(FluidGunDA->ItemGameplayTag))
-		{
-			return;
-		}
+		// Add fluid gun structure to array.
+		OwnedGuns.Add(FluidGun);
 	}
-	
-	OwnedGuns.Add(PopulateFluidGunStructure(FluidGun, FluidGunDA));
-	UE_LOG(LogTemp, Warning, TEXT("Next gun"));
-	
-	// // Check if gun is already in array.
-	// if (!OwnedGuns.Contains(PopulateFluidGunStructure(FluidGun, FluidGunDA)))
-	// {
-	// 	FName guwno = FluidGun.FluidGunGameplayTag.GetTagName();
-	// 	UE_LOG(LogTemp, Warning, TEXT("Tag: %s"), *guwno.ToString());
-	// 	// Add fluid gun structure to array.
-	// 	OwnedGuns.Add(FluidGun);
-	// }
 }
 
 void UFG_FluidGunComponent::DrawFluidGun(const FFluidGunProperties& FluidGun)
@@ -70,7 +56,7 @@ void UFG_FluidGunComponent::AddTank(const UFG_PDA_Tank* Tank)
 			return;
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("New tank"));
+
 	// Add tank structure to array.
 	OwnedTanks.Add(CurrentGun->PopulateTankStructure(Tank));
 }
@@ -123,5 +109,3 @@ FFluidGunProperties UFG_FluidGunComponent::PopulateFluidGunStructure(FFluidGunPr
 
 	return FluidGun;
 }
-
-

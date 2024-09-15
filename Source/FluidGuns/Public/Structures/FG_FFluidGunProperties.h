@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "FG_FTankProperties.h"
+#include "Components/FG_Addon.h"
 #include "Structures/FG_FFluidGunParameters.h"
 #include "GameplayTags.h"
 
@@ -43,4 +43,8 @@ struct FFluidGunProperties
 	// Whether fluid fun has own tank.
 	UPROPERTY(BlueprintReadWrite)
 	bool bHasOwnTank = false;
+
+	// Operator overloading for comparing this structure.
+	bool operator==(const FFluidGunProperties& RHS) const {return FluidGunGameplayTag == RHS.FluidGunGameplayTag;}
 };
+
