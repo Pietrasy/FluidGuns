@@ -6,6 +6,7 @@
 #include "UObject/Interface.h"
 #include "FG_ActionInterface.generated.h"
 
+class UFG_PDA_Tank;
 class UFG_PDA_FluidGun;
 // This class does not need to be modified.
 UINTERFACE()
@@ -25,4 +26,7 @@ class FLUIDGUNS_API IFG_ActionInterface
 public:
 	UFUNCTION(BlueprintNativeEvent)
 	void AddGun(const UFG_PDA_FluidGun* FluidGunDA);
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void AddTank(const UFG_PDA_Tank* TankDA);
 };

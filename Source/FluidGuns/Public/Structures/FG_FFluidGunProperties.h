@@ -2,11 +2,13 @@
 
 #pragma once
 
+#include "FG_FTankProperties.h"
 #include "Structures/FG_FFluidGunParameters.h"
 #include "GameplayTags.h"
 
 #include "FG_FFluidGunProperties.generated.h"
 
+class UFG_PDA_Tank;
 class UFG_Addon;
 
 USTRUCT(BlueprintType)
@@ -33,4 +35,12 @@ struct FFluidGunProperties
 	// Addons for fluid gun.
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TSubclassOf<UFG_Addon>> Addons;
+
+	// Last tank that was attached to fluid gun.
+	UPROPERTY(BlueprintReadWrite)
+	FGameplayTag CurrentTank = FGameplayTag::EmptyTag;
+
+	// Whether fluid fun has own tank.
+	UPROPERTY(BlueprintReadWrite)
+	bool bHasOwnTank = false;
 };

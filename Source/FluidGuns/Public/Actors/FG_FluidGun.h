@@ -6,8 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "Structures/FG_FFluidGunParameters.h"
 #include "Structures/FG_FFluidGunProperties.h"
+#include "Structures/FG_FTankProperties.h"
 #include "FG_FluidGun.generated.h"
 
+class UFG_PDA_Tank;
 class UFG_Addon;
 
 UCLASS()
@@ -26,6 +28,21 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="FluidGun")
 	FGameplayTag FluidGunGameplayTag = FGameplayTag::EmptyTag;
 
+	// Current tank of fluid gun.
+	UPROPERTY(VisibleAnywhere, Category="FluidGun|Tank")
+	FTankProperties Tank;
+
+	// If fluid gun has its own tank, it can't be changed.
+	UPROPERTY(VisibleAnywhere, Category="FluidGun|Tank")
+	bool bHasOwnTank = false;
+
+	// Set new tank and its static mesh. When bOwnTank is false, static mesh will be clear.
+	UFUNCTION(BlueprintCallable)
+	void SetTank(const FTankProperties NewTank, const bool bOwnTank = false);
+
+	// Make and return structure from tank data asset.
+	FTankProperties PopulateTankStructure(const UFG_PDA_Tank* NewTank);
+
 protected:
 	// Pressure, range, fire rate, etc.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,  Category="FluidGun")
@@ -42,6 +59,9 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere, Category="FluidGun")
 	TObjectPtr<UStaticMeshComponent> FluidGunStaticMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category="FluidGun|Tank")
+	TObjectPtr<UStaticMeshComponent> TankStaticMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category="FluidGun")
 	FName FluidGunName;

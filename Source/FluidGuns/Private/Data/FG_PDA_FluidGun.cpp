@@ -8,5 +8,4 @@ void UFG_PDA_FluidGun::PostLoad()
 	Super::PostLoad();
 
 	FluidGunData.Pressure = FluidGunData.MaxPressure;
-	FluidGunData.Range = (FluidGunData.BaseRange * FluidGunData.Pressure) / 50;
 }

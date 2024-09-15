@@ -20,6 +20,7 @@ class FLUIDGUNS_API AFG_HUD : public AHUD
 {
 	GENERATED_BODY()
 
+public:
 	virtual void BeginPlay() override;
 
 private:

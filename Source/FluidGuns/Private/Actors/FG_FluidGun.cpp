@@ -4,6 +4,7 @@
 #include "Actors/FG_FluidGun.h"
 
 #include "Components/FG_Addon.h"
+#include "Data/FG_PDA_Tank.h"
 
 AFG_FluidGun::AFG_FluidGun()
 {
@@ -11,14 +12,23 @@ AFG_FluidGun::AFG_FluidGun()
 	FluidGunStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("FluidGunStaticMesh");
 	SetRootComponent(FluidGunStaticMesh);
 	FluidGunStaticMesh->SetCollisionProfileName("NoCollision", false);
+
+	// Create static mesh of tank, attach to fluid gun and set its collision profile.
+	TankStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("TankStaticMesh");
+	TankStaticMesh->SetupAttachment(FluidGunStaticMesh);
+	TankStaticMesh->SetCollisionProfileName("NoCollision", false);
 }
 
 void AFG_FluidGun::UpdateGun(const FFluidGunProperties& FluidGun)
 {
+
+	FluidGunStaticMesh->SetStaticMesh(nullptr);
+	
 	FluidGunParameters = FluidGun.FluidGunData;
 	FluidGunName = FluidGun.FluidGunName;
 	FluidGunGameplayTag = FluidGun.FluidGunGameplayTag;
 	FluidGunStaticMesh->SetStaticMesh(FluidGun.StaticMesh);
+	bHasOwnTank = FluidGun.bHasOwnTank;
 
 	RemoveAddons();
 	
@@ -28,10 +38,39 @@ void AFG_FluidGun::UpdateGun(const FFluidGunProperties& FluidGun)
 	}
 }
 
+void AFG_FluidGun::SetTank(const FTankProperties NewTank, const bool bOwnTank)
+{
+
+	// Set new tank.
+	Tank = NewTank;
+
+	// Depending on value of bOwnTank set static mesh of tank or not.
+	if (bOwnTank)
+	{
+		TankStaticMesh->SetStaticMesh(nullptr);
+	}
+	else
+	{
+		TankStaticMesh->SetStaticMesh(Tank.StaticMesh);
+	}
+}
+
+FTankProperties AFG_FluidGun::PopulateTankStructure(const UFG_PDA_Tank* NewTank)
+{
+	FTankProperties FluidTank;
+	FluidTank.TankData = NewTank->TankParameters;
+	FluidTank.StaticMesh = NewTank->ItemStaticMesh;
+	FluidTank.GameplayTag = NewTank->ItemGameplayTag;
+	FluidTank.Name = NewTank->ItemName;
+
+	return FluidTank;
+}
+
 UFG_Addon* AFG_FluidGun::GetAddon(const FGameplayTag AddonTag)
 {
 	for (UFG_Addon* Addon : Addons)
 	{
+		//Check if addon is in array.
 		if (Addon->AddonTag.MatchesTag(AddonTag))
 		{
 			return Addon;
