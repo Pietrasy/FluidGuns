@@ -26,4 +26,8 @@ struct FFluidGunParameters
 	// Firing frequency.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float FireRate = 0.f;
+
+	// How many times fluid gun can fire.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int ShotsNumber = 0;
 };

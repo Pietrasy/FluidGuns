@@ -7,8 +7,9 @@
 #include "UObject/Object.h"
 #include "FG_WidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGunUpdate_WidgetSignature, float, Pressure, float, MaxPressure);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdate_WidgetSignature, float, FluidAmount, float, MaxFluidAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnGunUpdateWidgetSignature, float, Pressure, float, MaxPressure, bool, bIsPressureConst);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdateWidgetSignature, float, FluidAmount, float, MaxFluidAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUpdateWidgetSignature, float, Pressure, float, Fluid);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShowSelectTankWidgetSignature, const TArray<FTankProperties>&, Tanks);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSelectTankSignature, FGameplayTag, TankTag);
 
@@ -21,19 +22,23 @@ class FLUIDGUNS_API UFG_WidgetController : public UObject
 	GENERATED_BODY()
 
 public:
-	// Fluid gun data to update its widget.
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FOnGunUpdate_WidgetSignature OnGunUpdate;
+	// Pass information about pressure level, maximum pressure level and whether fluid gun pressure is constant.
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")
+	FOnGunUpdateWidgetSignature OnFluidGunUpdate;
 
-	// Tank data to update its widget.
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FOnTankUpdate_WidgetSignature OnTankUpdate;
+	// Pass information about fluid amount of tank and it maximum fluid amount. 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")
+	FOnTankUpdateWidgetSignature OnTankUpdate;
 
-	// Call at start selector tank widget and pass data to it.
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	// Called at the start of selector tank widget to provide it with data on available tanks.
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")
 	FOnShowSelectTankWidgetSignature OnShowSelectTankWidget;
 
 	// Retrieve tank tag from selector tank widget.
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")
 	FOnSelectTankSignature OnSelectTank;
+
+	// Pass information about pressure level and fluid amount.
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")
+	FOnUpdateWidgetSignature OnParamsUpdate;
 };

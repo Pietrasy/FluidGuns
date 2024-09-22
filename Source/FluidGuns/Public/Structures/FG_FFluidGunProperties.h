@@ -20,29 +20,33 @@ struct FFluidGunProperties
 	UPROPERTY(BlueprintReadWrite)
 	FFluidGunParameters FluidGunData;
 
-	// Static mesh for fluid gun.
+	// Fluid gun static mesh.
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UStaticMesh> StaticMesh = nullptr;
 
-	// Gameplay tag for fluid gun.
+	// Fluid gun gameplay tag
 	UPROPERTY(BlueprintReadWrite)
 	FGameplayTag FluidGunGameplayTag = FGameplayTag::EmptyTag;
 
-	// Name for fluid gun.
+	// Name of fluid gun.
 	UPROPERTY(BlueprintReadWrite)
 	FName FluidGunName;
 
-	// Addons for fluid gun.
+	// Fluid gun addons.
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TSubclassOf<UFG_Addon>> Addons;
 
 	// Last tank that was attached to fluid gun.
 	UPROPERTY(BlueprintReadWrite)
-	FGameplayTag CurrentTank = FGameplayTag::EmptyTag;
-
-	// Whether fluid fun has own tank.
+	TOptional<FGameplayTag> AttachedTank;
+	
+	// Indicates whether fluid gun has own tank.
 	UPROPERTY(BlueprintReadWrite)
 	bool bHasOwnTank = false;
+
+	// Indicates whether fluid gun pressure is constant. 
+	UPROPERTY(BlueprintReadWrite)
+	bool bConstPressure = false;
 
 	// Operator overloading for comparing this structure.
 	bool operator==(const FFluidGunProperties& RHS) const {return FluidGunGameplayTag == RHS.FluidGunGameplayTag;}
