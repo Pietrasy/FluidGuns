@@ -40,18 +40,10 @@ public:
 	// Currently draw fluid gun.
 	UPROPERTY(BlueprintReadOnly, Category="FluidGunComponent|FluidGun")
 	TObjectPtr<AFG_FluidGun> CurrentGun = nullptr;
-
-	// Index of equivalent current fluid gun in OwnedGuns array. Needed for update structures in array.
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="FluidGun|FluidGun")
-	TOptional<int32> CurrentFluidGunIndex;
-
+	
 	// Array of player's fluid guns.
 	UPROPERTY(BlueprintReadOnly, Category="FluidGunComponent|FluidGun")
 	TArray<FFluidGunProperties> OwnedGuns;
-	
-	// Index of equivalent current tank in OwnedTanks array. Needed for update structures in array.
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="FluidGun|Tank")
-	TOptional<int32> CurrentTankIndex;
 
 	// Array of player's tanks.
 	UPROPERTY(BlueprintReadOnly, Category="FluidGunComponent|Tank")
@@ -61,6 +53,12 @@ public:
 	UPROPERTY(EditAnywhere, Category="FluidGunComponent|FluidGun")
 	TSubclassOf<AActor> FluidGunClass = nullptr;
 
+	// Index of equivalent current fluid gun in OwnedGuns array. Needed for update structures in array.
+	TOptional<int32> CurrentFluidGunIndex;
+	
+	// Index of equivalent current tank in OwnedTanks array. Needed for update structures in array.
+	TOptional<int32> CurrentTankIndex;
+	
 	// Retrieving tank from array based on CurrentTankIndex.
 	UFUNCTION(BlueprintPure, Category="FluidGunComponent|Tank")
 	const FTankProperties& GetCurrentTank();
@@ -93,6 +91,9 @@ protected:
 	// Owner of this component.
 	UPROPERTY(BlueprintReadWrite, Category="FluidGunComponent|PlayerCharacter")
 	TObjectPtr<AFG_Player> PlayerCharacter = nullptr;
+
+	UFUNCTION(BlueprintCallable, Category="FluidGun")
+	int32 GetCurrentFluidGunIndex();
 
 private:
 	// When player picks up their first gun, fluid gun actor will be spawned.

@@ -23,7 +23,6 @@ const FTankProperties& UFG_FluidGunComponent::GetCurrentTank()
 		return OwnedTanks[0];
 	}
 	return OwnedTanks[CurrentTankIndex.GetValue()];
-	
 }
 
 const FFluidGunProperties& UFG_FluidGunComponent::GetCurrentFluidGun()
@@ -69,14 +68,20 @@ void UFG_FluidGunComponent::DrawFluidGun(FGameplayTag FluidGunTag)
 		{
 			return FluidGun.FluidGunGameplayTag.MatchesTag(FluidGunTag);
 		});
+	if (!OwnedGuns.IsValidIndex(CurrentFluidGunIndex.GetValue()))
+		{
+			return;
+		}
 		// Overwrite fluid gun data.
 		CurrentGun->SetGun(GetCurrentFluidGun());
 		// Check if fluid gun has its own tank.
 		if (CurrentGun->bHasOwnTank)
 		{
+			CurrentGun->Tank.TankData.FluidAmount = OwnedGuns[GetCurrentFluidGunIndex()].OwnTankParams[0];
+			CurrentGun->Tank.TankData.MaxFluidAmount = OwnedGuns[GetCurrentFluidGunIndex()].OwnTankParams[1];
 			// Reset CurrentTankIndex to become uninitialised and call delegate.
 			CurrentTankIndex.Reset();
-			OnTankUpdate.Broadcast(CurrentGun->Tank.TankData.FluidAmount, CurrentGun->Tank.TankData.MaxFluidAmount);
+			OnTankUpdate.Broadcast(OwnedGuns[GetCurrentFluidGunIndex()].OwnTankParams[0], OwnedGuns[GetCurrentFluidGunIndex()].OwnTankParams[1]);
 		}
 		else
 		{
@@ -139,6 +144,7 @@ void UFG_FluidGunComponent::OnGunUpdate(float PressureLevel, float FluidAmount)
 	// Check whether fluid gun has own tank.
 	if (CurrentGun->bHasOwnTank)
 	{
+		OwnedGuns[CurrentFluidGunIndex.GetValue()].OwnTankParams[0] = FluidAmount;
 		// Override fluid amount of current gun tank with value from OnFluidGunUpdate delegate.
 		CurrentGun->Tank.TankData.FluidAmount = FluidAmount;
 		Fluid = CurrentGun->Tank.TankData.FluidAmount;
@@ -154,6 +160,11 @@ void UFG_FluidGunComponent::OnGunUpdate(float PressureLevel, float FluidAmount)
 	}
 	// Update widget with values of fluid gun and tank parameters.
 	OnUpdate.Broadcast(Pressure, Fluid);
+}
+
+int32 UFG_FluidGunComponent::GetCurrentFluidGunIndex()
+{
+	return CurrentFluidGunIndex.GetValue();
 }
 
 void UFG_FluidGunComponent::SpawnCurrentFluidGun()
@@ -186,6 +197,8 @@ FFluidGunProperties UFG_FluidGunComponent::PopulateFluidGunStructure(FFluidGunPr
 	// If fluid gun has its own tank, set it up.
 	if(FluidGunDA->bHasOwnTank)
 	{
+		FluidGun.OwnTankParams[0] = FluidGunDA->OwnTank->TankParameters.FluidAmount;
+		FluidGun.OwnTankParams[1] = FluidGunDA->OwnTank->TankParameters.MaxFluidAmount;
 		// Reset CurrentTankIndex to become uninitialised and set fluid gun tank.
 		CurrentTankIndex.Reset();
 		CurrentGun->SetTank(PopulateTankStructure(FluidGunDA->OwnTank), true);

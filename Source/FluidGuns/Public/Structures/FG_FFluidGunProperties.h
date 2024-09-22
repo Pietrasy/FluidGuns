@@ -43,6 +43,8 @@ struct FFluidGunProperties
 	// Indicates whether fluid gun has own tank.
 	UPROPERTY(BlueprintReadWrite)
 	bool bHasOwnTank = false;
+	
+	float OwnTankParams[2] = {0.f,0.f}; 
 
 	// Indicates whether fluid gun pressure is constant. 
 	UPROPERTY(BlueprintReadWrite)
