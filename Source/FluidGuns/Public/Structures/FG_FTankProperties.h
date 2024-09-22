@@ -1,20 +1,18 @@
 ﻿#pragma once
 
 #include "FG_FTankParameters.h"
-#include "GameplayTags.h"
+#include "GameplayTagContainer.h"
 #include "FG_FTankProperties.generated.h"
 
 USTRUCT(BlueprintType)
 struct FTankProperties
 {
-
 	GENERATED_BODY()
-
 	// Base structure for tank.
 	UPROPERTY(BlueprintReadWrite)
 	FTankParameters TankData;
 
-	// Static mesh for tank.
+	// Tank static mesh.
 	UPROPERTY(BlueprintReadWrite)
 	UStaticMesh* StaticMesh = nullptr;
 
@@ -22,7 +20,9 @@ struct FTankProperties
 	UPROPERTY(BlueprintReadWrite)
 	FGameplayTag GameplayTag = FGameplayTag::EmptyTag;
 
-	// Name for tank.
+	// Name of tank.
 	UPROPERTY(BlueprintReadWrite)
 	FName Name;
+
+	bool operator==(const FTankProperties& RHS) const {return GameplayTag == RHS.GameplayTag;}
 };

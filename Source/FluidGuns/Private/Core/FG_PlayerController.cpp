@@ -7,8 +7,7 @@
 
 void AFG_PlayerController::BeginPlay()
 {
-	// Get controlled character.
+	// Get controlled character and cache it as PlayerCharacter.
 	PlayerCharacter = CastChecked<AFG_Player>(GetCharacter());
-	
 	Super::BeginPlay();
 }

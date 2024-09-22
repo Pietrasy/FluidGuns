@@ -21,5 +21,9 @@ public:
 	FTankParameters TankParameters;
 
 private:
+	/*
+	 * Function is called only during first PIE.
+	 * In order for PostLoad() to be called for newly created data asset, restart of the engine is required.
+	 */
 	virtual void PostLoad() override;
 };

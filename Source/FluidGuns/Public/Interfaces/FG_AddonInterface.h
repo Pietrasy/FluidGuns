@@ -23,5 +23,5 @@ class FLUIDGUNS_API IFG_AddonInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	void IncreasePressureLevel(UPARAM(ref)float& Pressure, const float MaxPressure);
+	void ChangePressureLevel(UPARAM(ref)float& Pressure, const float MaxPressure);
 };

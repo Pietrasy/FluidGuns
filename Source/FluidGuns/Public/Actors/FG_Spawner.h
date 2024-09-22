@@ -16,7 +16,6 @@ class FLUIDGUNS_API AFG_Spawner : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AFG_Spawner();
 
 	// Data asset of item to spawn.
@@ -28,8 +27,6 @@ public:
 	TObjectPtr<UStaticMeshComponent> ItemStaticMesh = nullptr;
 	
 private:
-	void CreateAndAttachComponent();
-
 	// Arrow component to indicate front of spawner.
 	UPROPERTY(VisibleDefaultsOnly, Category="Spawner")
 	TObjectPtr<UArrowComponent> ArrowComponent = nullptr;

@@ -8,6 +8,7 @@
 
 class UFG_PDA_Tank;
 class UFG_PDA_FluidGun;
+
 // This class does not need to be modified.
 UINTERFACE()
 class UFG_ActionInterface : public UInterface

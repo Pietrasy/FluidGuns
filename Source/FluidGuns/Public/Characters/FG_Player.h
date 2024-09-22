@@ -14,10 +14,9 @@ class FLUIDGUNS_API AFG_Player : public ACharacter, public IFG_ActionInterface
 	GENERATED_BODY()
 
 public:
-	// Constructor to disable create skeletal mesh.
+	// Constructor to disable creation of skeletal mesh component.
 	AFG_Player(const FObjectInitializer& ObjectInitializer);
-
-	// Gameplay tag of character.
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player")
 	FGameplayTagContainer CharacterGameplayTag = FGameplayTagContainer::EmptyContainer;
 };

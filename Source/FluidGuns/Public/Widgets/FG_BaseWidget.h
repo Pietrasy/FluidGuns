@@ -7,6 +7,7 @@
 #include "FG_BaseWidget.generated.h"
 
 class UFG_WidgetController;
+
 /**
  * All BaseWidget derivatives can have WidgetController.
  */
@@ -16,11 +17,13 @@ class FLUIDGUNS_API UFG_BaseWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable)
+	// Set WidgetController and call event.
+	UFUNCTION(BlueprintCallable, Category="WidgetController")
 	void SetWidgetController(UFG_WidgetController* Controller);
 
 protected:
-	UFUNCTION(BlueprintImplementableEvent)
+	// Event triggered when WidgetController is set.
+	UFUNCTION(BlueprintImplementableEvent, Category="WidgetController")
 	void WidgetControllerSet();
 
 private:

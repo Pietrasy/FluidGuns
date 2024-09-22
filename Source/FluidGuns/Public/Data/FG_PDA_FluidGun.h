@@ -9,6 +9,7 @@
 
 class UFG_PDA_Tank;
 class UFG_Addon;
+
 /**
  * Class for fluid gun data assets.
  */
@@ -22,7 +23,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="FluidGun")
 	FFluidGunParameters FluidGunData;
 
-	// Array of addons for fluid gun.
+	// Indicates whether fluid gun has constant value of pressure.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="FLuidGun")
+	bool bIsPressureConst = false;
+
+	// Addons array for fluid gun.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="FLuidGun")
 	TArray<TSubclassOf<UFG_Addon>> Addons;
 	
@@ -32,8 +37,12 @@ public:
 	
 	// If gun doesn't have its own tank it should be empty.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="FLuidGun", meta=(EditCondition="bHasOwnTank"))
-	TObjectPtr<UFG_PDA_Tank> OwnTank;
+	TObjectPtr<UFG_PDA_Tank> OwnTank = nullptr;
 
 private:
+	/*
+	 * Function is called only during first PIE.
+	 * In order for PostLoad() to be called for newly created data asset, restart of the engine is required.
+	 */
 	virtual void PostLoad() override;
 };

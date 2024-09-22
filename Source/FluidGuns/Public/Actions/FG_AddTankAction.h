@@ -8,7 +8,7 @@
 
 class UFG_PDA_Tank;
 /**
- * Passes tank to player, if player implements interface.
+ * Action: Passes tank to player, if player implements interface.
  */
 UCLASS()
 class FLUIDGUNS_API UFG_AddTankAction : public UFG_Action

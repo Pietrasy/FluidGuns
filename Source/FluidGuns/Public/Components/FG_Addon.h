@@ -18,8 +18,7 @@ class FLUIDGUNS_API UFG_Addon : public UStaticMeshComponent,  public IFG_AddonIn
 
 public:
 	UFG_Addon();
-
-	// Addon gameplay tag.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Addon")
 	FGameplayTag AddonTag = FGameplayTag::EmptyTag;
 };

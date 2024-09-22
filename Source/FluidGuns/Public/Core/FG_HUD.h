@@ -13,7 +13,7 @@ class AFG_PlayerController;
 class AFG_Player;
 
 /**
- * HUD base class.
+ * Base class of FG_HUD.
  */
 UCLASS(Abstract)
 class FLUIDGUNS_API AFG_HUD : public AHUD
@@ -23,25 +23,32 @@ class FLUIDGUNS_API AFG_HUD : public AHUD
 public:
 	virtual void BeginPlay() override;
 
-private:
-	UPROPERTY(BlueprintReadOnly, Category="HUD", meta=(AllowPrivateAccess))
+protected:
+	UPROPERTY(BlueprintReadOnly, Category="HUD")
 	TObjectPtr<AFG_Player> PlayerCharacter = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category="HUD", meta=(AllowPrivateAccess))
+	UPROPERTY(BlueprintReadOnly, Category="HUD")
 	TObjectPtr<AFG_PlayerController> PlayerController = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category="HUD", meta=(AllowPrivateAccess))
+	UPROPERTY(BlueprintReadOnly, Category="HUD")
 	TObjectPtr<UFG_FluidGunComponent> FluidGunComponent = nullptr;
 
+	UPROPERTY(BlueprintReadOnly, Category="HUD")
+	TObjectPtr<UFG_WidgetController> WidgetController = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category="HUD")
+	TObjectPtr<UFG_BaseWidget> OverlayWidget = nullptr;
+	
+private:
+	// Blueprint class of Widget Controller, that will be created as UFG_WidgetController.
 	UPROPERTY(EditDefaultsOnly, Category="HUD")
 	TSubclassOf<UFG_WidgetController> WidgetControllerClass = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category="HUD", meta=(AllowPrivateAccess))
-	TObjectPtr<UFG_WidgetController> WidgetController = nullptr;
-
+	// Blueprint class of Overlay Widget, that will be general widget.
 	UPROPERTY(EditDefaultsOnly, Category="HUD")
 	TSubclassOf<UFG_BaseWidget> OverlayWidgetClass = nullptr;
-	
-	UPROPERTY(BlueprintReadOnly, Category="HUD", meta=(AllowPrivateAccess))
-	TObjectPtr<UFG_BaseWidget> OverlayWidget = nullptr;
+
+	// Blueprint class of Fluid Gun Component to be created.
+	UPROPERTY(EditDefaultsOnly, Category="HUD")
+	TSubclassOf<UFG_FluidGunComponent> FluidGunComponentClass = nullptr;
 };

@@ -9,7 +9,7 @@
 class UFG_PDA_FluidGun;
 
 /**
- * Passes fluid gun to player, if player implements interface.
+ * Action: Passes fluid gun to player, if player implements interface.
  */
 UCLASS()
 class FLUIDGUNS_API UFG_AddFluidGunAction : public UFG_Action
