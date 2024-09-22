@@ -24,4 +24,7 @@ class FLUIDGUNS_API IFG_AddonInterface
 public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void ChangePressureLevel(UPARAM(ref)float& Pressure, const float MaxPressure);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void IncreasePressureLevel(UPARAM(ref)float& Pressure, const float MaxPressure);
 };
