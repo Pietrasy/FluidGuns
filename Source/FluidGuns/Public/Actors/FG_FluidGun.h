@@ -9,6 +9,7 @@
 #include "Structures/FG_FTankProperties.h"
 #include "FG_FluidGun.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSetGun);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnFluidGunUpdateSignature, float, PressureLevel, float, FluidAmout);
 
 class UFG_PDA_Tank;
@@ -21,6 +22,10 @@ class FLUIDGUNS_API AFG_FluidGun : public AActor
 
 public:
 	AFG_FluidGun();
+
+	// Call when setting up new gun.
+	UPROPERTY(BlueprintAssignable, Category="FluidGun|Delegate")
+	FOnSetGun OnSetGun;
 	
 	// Delegate to pass values of pressure level and fluid amount.
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="FluidGun|Delegate")

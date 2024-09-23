@@ -19,8 +19,11 @@ AFG_FluidGun::AFG_FluidGun()
 
 void AFG_FluidGun::SetGun(const FFluidGunProperties& FluidGun)
 {
-	// Clear fire delay timer handle.
-	FireDelayTimerHandle.Invalidate();
+	// Call delegate at the start of setting up new fluid gun.
+	OnSetGun.Broadcast();
+	// Clear fire delay timer handle and set bCanFire to true.
+	GetWorld()->GetTimerManager().ClearTimer(FireDelayTimerHandle);
+	SetFire();
 	RemoveAddons();
 	PopulateFluidGunMembers(FluidGun);
 	// Add new addons to fluid gun.
