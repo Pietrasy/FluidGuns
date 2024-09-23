@@ -92,7 +92,8 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category="FluidGunComponent|PlayerCharacter")
 	TObjectPtr<AFG_Player> PlayerCharacter = nullptr;
 
-	UFUNCTION(BlueprintCallable, Category="FluidGun")
+	// Return array index of current fluid gun.
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="FluidGun")
 	int32 GetCurrentFluidGunIndex();
 
 private:
