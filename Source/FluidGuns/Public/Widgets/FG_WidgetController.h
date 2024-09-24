@@ -7,7 +7,7 @@
 #include "UObject/Object.h"
 #include "FG_WidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnGunUpdateWidgetSignature, float, Pressure, float, MaxPressure, bool, bIsPressureConst);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDrawFluidGunWidgetSignature, float, MaxPressure, bool, bIsPressureConst);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdateWidgetSignature, float, FluidAmount, float, MaxFluidAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUpdateWidgetSignature, float, Pressure, float, Fluid);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShowSelectTankWidgetSignature, const TArray<FTankProperties>&, Tanks);
@@ -22,9 +22,9 @@ class FLUIDGUNS_API UFG_WidgetController : public UObject
 	GENERATED_BODY()
 
 public:
-	// Pass information about pressure level, maximum pressure level and whether fluid gun pressure is constant.
+	// Pass information about maximum pressure level and whether fluid gun pressure is constant.
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")
-	FOnGunUpdateWidgetSignature OnFluidGunUpdate;
+	FOnDrawFluidGunWidgetSignature OnDrawFluidGun;
 
 	// Pass information about fluid amount of tank and it maximum fluid amount. 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="WidgetController|Delegate")

@@ -69,7 +69,8 @@ void UFG_FluidGunComponent::DrawFluidGun(FGameplayTag FluidGunTag)
 		{
 			return FluidGun.FluidGunGameplayTag.MatchesTag(FluidGunTag);
 		});
-	if (!OwnedGuns.IsValidIndex(CurrentFluidGunIndex.GetValue()))
+		// Check if element from OwnedGuns array has been retrieved.
+		if (!OwnedGuns.IsValidIndex(CurrentFluidGunIndex.GetValue()))
 		{
 			return;
 		}
@@ -98,7 +99,7 @@ void UFG_FluidGunComponent::DrawFluidGun(FGameplayTag FluidGunTag)
  			ChangeTank(GetCurrentFluidGun().AttachedTank.GetValue());
 		}
 		// Update widget with values of fluid gun and tank parameters.
-		OnFluidGunUpdate.Broadcast(GetCurrentFluidGun().FluidGunData.Pressure, GetCurrentFluidGun().FluidGunData.MaxPressure);
+		OnDrawFluidGun.Broadcast(GetCurrentFluidGun().FluidGunData.MaxPressure);
 		CurrentGun->UpdateGun();
 	}
 }
@@ -150,11 +151,11 @@ void UFG_FluidGunComponent::OnGunUpdate(float PressureLevel, float FluidAmount)
 	if (CurrentGun->bHasOwnTank)
 	{
 		OwnedGuns[CurrentFluidGunIndex.GetValue()].OwnTankFluidAmount = FluidAmount;
-		// Override fluid amount of current gun tank with value from OnFluidGunUpdate delegate.
+		// Override fluid amount of own tank with value from OnFluidGunUpdate delegate.
 		CurrentGun->Tank.TankData.FluidAmount = FluidAmount;
 		Fluid = CurrentGun->Tank.TankData.FluidAmount;
 		// Update widget with values of fluid gun and tank parameters.
-		OnUpdate.Broadcast(Pressure, Fluid);
+		OnGunParamsUpdate.Broadcast(Pressure, Fluid);
 		return;
 	}
 	// Check if CurrentTankIndex has been initialized.
@@ -164,7 +165,7 @@ void UFG_FluidGunComponent::OnGunUpdate(float PressureLevel, float FluidAmount)
 		Fluid = OwnedTanks[CurrentTankIndex.GetValue()].TankData.FluidAmount = FluidAmount;
 	}
 	// Update widget with values of fluid gun and tank parameters.
-	OnUpdate.Broadcast(Pressure, Fluid);
+	OnGunParamsUpdate.Broadcast(Pressure, Fluid);
 }
 
 int32 UFG_FluidGunComponent::GetCurrentFluidGunIndex()

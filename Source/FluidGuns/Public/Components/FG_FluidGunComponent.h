@@ -13,7 +13,7 @@ class UFG_PDA_Tank;
 class AFG_Player;
 class AFG_FluidGun;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGunUpdateSignature, float, Pressure, float, MaxPressure);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDrawFluidGunSignature, float, MaxPressure);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdateSignature, float, FluidAmount, float, MaxFluidAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUpdateSignature, float, Pressure, float, FluidAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSpawnFluidGun);
@@ -32,11 +32,11 @@ public:
 	
 	// Delegate to pass values of pressure level and fluid amount.
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="FluidGunComponent|Delegate")
-	FOnUpdateSignature OnUpdate;
+	FOnUpdateSignature OnGunParamsUpdate;
 
-	// Delegate to pass information about pressure level and maximum pressure level.
+	// Delegate to pass information about maximum pressure level.
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="FluidGunComponent|Delegate")
-	FOnGunUpdateSignature OnFluidGunUpdate;
+	FOnDrawFluidGunSignature OnDrawFluidGun;
 	
 	// Delegate to pass information about fluid amount of tank and it maximum fluid amount.
 	UPROPERTY(BlueprintAssignable, Category="FluidGunComponent|Delegate")
@@ -87,7 +87,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="FluidGunComponent|FluidGun")
 	TSubclassOf<AActor> FluidGunClass = nullptr;
 
-	// Callback function to OnFluidGunUpdate from FG_FluidGun. Call OnUpdate delegate.
+	// Callback function to OnFluidGunUpdate from FG_FluidGun. Call OnGunParamsUpdate delegate.
 	UFUNCTION()
 	void OnGunUpdate(float PressureLevel, float FluidAmount);
 
