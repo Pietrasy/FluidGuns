@@ -48,6 +48,7 @@ void UFG_FluidGunComponent::AddFluidGun(const UFG_PDA_FluidGun* FluidGunDA)
 		CurrentGun->OnFluidGunUpdate.AddDynamic(this, &ThisClass::OnGunUpdate);
 		// Add fluid gun to array.
 		OwnedGuns.Add(FluidGun);
+		OnSpawnFluidGun.Broadcast();
 		return;
 	}
 	// Check if gun is already in array.
@@ -79,6 +80,7 @@ void UFG_FluidGunComponent::DrawFluidGun(FGameplayTag FluidGunTag)
 		{
 			// Pass own tank parameters to tank structure.
 			CurrentGun->ClearTankStructure();
+			CurrentGun->Tank.GameplayTag = OwnedGuns[GetCurrentFluidGunIndex()].AttachedTank.GetValue();
 			CurrentGun->Tank.TankData.FluidAmount = OwnedGuns[GetCurrentFluidGunIndex()].OwnTankFluidAmount;
 			CurrentGun->Tank.TankData.MaxFluidAmount = OwnedGuns[GetCurrentFluidGunIndex()].OwnTankMaxFluidAmount;
 			CurrentGun->SetTank(CurrentGun->Tank);
@@ -200,6 +202,7 @@ FFluidGunProperties UFG_FluidGunComponent::PopulateFluidGunStructure(FFluidGunPr
 	// If fluid gun has its own tank, set it up.
 	if(FluidGunDA->bHasOwnTank)
 	{
+		FluidGun.AttachedTank = FluidGunDA->OwnTank->ItemGameplayTag;
 		FluidGun.OwnTankFluidAmount = FluidGunDA->OwnTank->TankParameters.FluidAmount;
 		FluidGun.OwnTankMaxFluidAmount = FluidGunDA->OwnTank->TankParameters.MaxFluidAmount;
 		// Reset CurrentTankIndex to become uninitialised and set fluid gun tank.

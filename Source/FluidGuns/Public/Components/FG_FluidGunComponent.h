@@ -16,6 +16,7 @@ class AFG_FluidGun;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGunUpdateSignature, float, Pressure, float, MaxPressure);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdateSignature, float, FluidAmount, float, MaxFluidAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUpdateSignature, float, Pressure, float, FluidAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSpawnFluidGun);
 
 UCLASS(Blueprintable)
 class FLUIDGUNS_API UFG_FluidGunComponent : public UActorComponent
@@ -25,6 +26,10 @@ class FLUIDGUNS_API UFG_FluidGunComponent : public UActorComponent
 public:
 	virtual void BeginPlay() override;
 
+	// Call when fluid gun is spawned.
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="FluidGunComponent|Delegate")
+	FOnSpawnFluidGun OnSpawnFluidGun;
+	
 	// Delegate to pass values of pressure level and fluid amount.
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="FluidGunComponent|Delegate")
 	FOnUpdateSignature OnUpdate;
@@ -48,16 +53,6 @@ public:
 	// Array of player's tanks.
 	UPROPERTY(BlueprintReadOnly, Category="FluidGunComponent|Tank")
 	TArray<FTankProperties> OwnedTanks;
-
-	// Blueprint class of Fluid Gun to be created.
-	UPROPERTY(EditAnywhere, Category="FluidGunComponent|FluidGun")
-	TSubclassOf<AActor> FluidGunClass = nullptr;
-
-	// Index of equivalent current fluid gun in OwnedGuns array. Needed for update structures in array.
-	TOptional<int32> CurrentFluidGunIndex;
-	
-	// Index of equivalent current tank in OwnedTanks array. Needed for update structures in array.
-	TOptional<int32> CurrentTankIndex;
 	
 	// Retrieving tank from array based on CurrentTankIndex.
 	UFUNCTION(BlueprintPure, Category="FluidGunComponent|Tank")
@@ -83,20 +78,30 @@ public:
 	UFUNCTION(BlueprintCallable, Category="FluidGunComponent|Tank")
 	void ChangeTank(FGameplayTag TankTag);
 
-	// Callback function to OnFluidGunUpdate from FG_FluidGun. Call OnUpdate delegate.
-	UFUNCTION()
-	void OnGunUpdate(float PressureLevel, float FluidAmount);
-
 protected:
 	// Owner of this component.
 	UPROPERTY(BlueprintReadWrite, Category="FluidGunComponent|PlayerCharacter")
 	TObjectPtr<AFG_Player> PlayerCharacter = nullptr;
+
+	// Blueprint class of Fluid Gun to be created.
+	UPROPERTY(EditDefaultsOnly, Category="FluidGunComponent|FluidGun")
+	TSubclassOf<AActor> FluidGunClass = nullptr;
+
+	// Callback function to OnFluidGunUpdate from FG_FluidGun. Call OnUpdate delegate.
+	UFUNCTION()
+	void OnGunUpdate(float PressureLevel, float FluidAmount);
 
 	// Return array index of current fluid gun.
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category="FluidGun")
 	int32 GetCurrentFluidGunIndex();
 
 private:
+	// Index of equivalent current fluid gun in OwnedGuns array. Needed for update structures in array.
+	TOptional<int32> CurrentFluidGunIndex;
+	
+	// Index of equivalent current tank in OwnedTanks array. Needed for update structures in array.
+	TOptional<int32> CurrentTankIndex;
+	
 	// When player picks up their first gun, fluid gun actor will be spawned.
 	void SpawnCurrentFluidGun();
 
