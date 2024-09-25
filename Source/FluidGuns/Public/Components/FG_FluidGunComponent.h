@@ -24,8 +24,6 @@ class FLUIDGUNS_API UFG_FluidGunComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	virtual void BeginPlay() override;
-
 	// Call when fluid gun is spawned.
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category="FluidGunComponent|Delegate")
 	FOnSpawnFluidGun OnSpawnFluidGun;
@@ -79,10 +77,6 @@ public:
 	void ChangeTank(FGameplayTag TankTag);
 
 protected:
-	// Owner of this component.
-	UPROPERTY(BlueprintReadWrite, Category="FluidGunComponent|PlayerCharacter")
-	TObjectPtr<AFG_Player> PlayerCharacter = nullptr;
-
 	// Blueprint class of Fluid Gun to be created.
 	UPROPERTY(EditDefaultsOnly, Category="FluidGunComponent|FluidGun")
 	TSubclassOf<AActor> FluidGunClass = nullptr;

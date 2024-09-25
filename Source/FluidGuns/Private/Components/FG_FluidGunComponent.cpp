@@ -7,13 +7,6 @@
 #include "Characters/FG_Player.h"
 #include "Data/FG_PDA_Tank.h"
 
-void UFG_FluidGunComponent::BeginPlay()
-{
-	// Get owner of this component and set it as PlayerCharacter.
-	PlayerCharacter = CastChecked<AFG_Player>(GetOwner());
-	Super::BeginPlay();
-}
-
 const FTankProperties& UFG_FluidGunComponent::GetCurrentTank()
 {
 	// Check if CurrentTankIndex has been initialized.
@@ -175,20 +168,14 @@ int32 UFG_FluidGunComponent::GetCurrentFluidGunIndex()
 
 void UFG_FluidGunComponent::SpawnCurrentFluidGun()
 {
-	// Set spawn structure of fluid gun actor.
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Instigator = PlayerCharacter;
-	SpawnParams.Owner = PlayerCharacter;
 	// Spawn fluid gun actor.
 	if (!IsValid(FluidGunClass))
 	{
 		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::SpawnCurrentFluidGun - Invalid Fluid Gun Class"))
 		return;
 	}
-	CurrentGun = GetWorld()->SpawnActor<AFG_FluidGun>(FluidGunClass, SpawnParams);
+	CurrentGun = GetWorld()->SpawnActor<AFG_FluidGun>(FluidGunClass);
 	CastChecked<AFG_FluidGun>(CurrentGun);
-	// Attach fluid gun actor to player character.
-	CurrentGun->AttachToActor(PlayerCharacter, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 }
 
 FFluidGunProperties UFG_FluidGunComponent::PopulateFluidGunStructure(FFluidGunProperties& FluidGun, const UFG_PDA_FluidGun* FluidGunDA)
