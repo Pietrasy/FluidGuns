@@ -23,6 +23,7 @@ void AFG_FluidGun::SetGun(const FFluidGunProperties& FluidGun)
 	OnSetGun.Broadcast();
 	// Clear fire delay timer handle and set bCanFire to true.
 	GetWorld()->GetTimerManager().ClearTimer(FireDelayTimerHandle);
+	FireDelayTimerHandle.Invalidate();
 	SetFire();
 	RemoveAddons();
 	PopulateFluidGunMembers(FluidGun);
