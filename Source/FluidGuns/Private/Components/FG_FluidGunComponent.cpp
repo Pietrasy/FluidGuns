@@ -87,7 +87,7 @@ void UFG_FluidGunComponent::DrawFluidGun(FGameplayTag FluidGunTag)
 			CurrentGun->SetTank(CurrentGun->Tank);
 			// Reset CurrentTankIndex to become uninitialised and call delegate.
 			CurrentTankIndex.Reset();
-			OnTankUpdate.Broadcast(OwnedGuns[GetCurrentFluidGunIndex()].OwnTankFluidAmount, OwnedGuns[GetCurrentFluidGunIndex()].OwnTankMaxFluidAmount);
+			OnTankUpdate.Broadcast(OwnedGuns[GetCurrentFluidGunIndex()].OwnTankMaxFluidAmount,OwnedGuns[GetCurrentFluidGunIndex()].OwnTankFluidAmount, CurrentGun->Tank.GameplayTag);
 		}
 		else
 		{
@@ -138,7 +138,7 @@ void UFG_FluidGunComponent::ChangeTank(const FGameplayTag TankTag)
 	CurrentGun->SetTank(GetCurrentTank());
 	OwnedGuns[CurrentFluidGunIndex.GetValue()].AttachedTank = TankTag;
 	// Update widget with values of tank parameters.
-	OnTankUpdate.Broadcast(OwnedTanks[CurrentTankIndex.GetValue()].TankData.FluidAmount, OwnedTanks[CurrentTankIndex.GetValue()].TankData.MaxFluidAmount);
+	OnTankUpdate.Broadcast(OwnedTanks[CurrentTankIndex.GetValue()].TankData.MaxFluidAmount, OwnedTanks[CurrentTankIndex.GetValue()].TankData.FluidAmount, CurrentGun->Tank.GameplayTag);
 }
 
 void UFG_FluidGunComponent::OnGunUpdate(float PressureLevel, float FluidAmount)

@@ -14,7 +14,7 @@ class AFG_Player;
 class AFG_FluidGun;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDrawFluidGunSignature, float, MaxPressure);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdateSignature, float, FluidAmount, float, MaxFluidAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnTankUpdateSignature, float, MaxFluidAmount, float, FluidAmount, FGameplayTag, FluidType);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUpdateSignature, float, Pressure, float, FluidAmount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSpawnFluidGun);
 

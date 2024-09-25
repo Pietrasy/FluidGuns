@@ -8,7 +8,7 @@
 #include "FG_WidgetController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDrawFluidGunWidgetSignature, float, MaxPressure, bool, bIsPressureConst);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTankUpdateWidgetSignature, float, FluidAmount, float, MaxFluidAmount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnTankUpdateWidgetSignature, float, MaxFluidAmount, float, FluidAmount, FGameplayTag, FluidType);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnUpdateWidgetSignature, float, Pressure, float, Fluid);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShowSelectTankWidgetSignature, const TArray<FTankProperties>&, Tanks);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSelectTankSignature, FGameplayTag, TankTag);
