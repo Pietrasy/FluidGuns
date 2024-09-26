@@ -7,6 +7,8 @@
 
 AFG_FluidGun::AFG_FluidGun()
 {
+	// Actor will not call Tick() every frame.
+	PrimaryActorTick.bCanEverTick = false;
 	// Create fluid gun static mesh component, set it as root component and set its collision profile.
 	FluidGunStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("FluidGunStaticMesh");
 	SetRootComponent(FluidGunStaticMesh);

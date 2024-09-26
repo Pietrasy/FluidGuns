@@ -8,6 +8,8 @@
 
 AFG_FluidSource::AFG_FluidSource()
 {
+	// Actor will not call Tick() every frame.
+	PrimaryActorTick.bCanEverTick = false;
 	// Create sphere component, set it as root component.
 	SphereCollision = CreateDefaultSubobject<USphereComponent>("SphereCollision");
 	SetRootComponent(SphereCollision);
