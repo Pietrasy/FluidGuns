@@ -7,12 +7,6 @@
 #include "Characters/FG_Player.h"
 #include "Data/FG_PDA_Tank.h"
 
-UFG_FluidGunComponent::UFG_FluidGunComponent()
-{
-	// Actor will not call Tick() every frame.
-	PrimaryActorTick.bCanEverTick = false;
-}
-
 const FTankProperties& UFG_FluidGunComponent::GetCurrentTank()
 {
 	// Check if CurrentTankIndex has been initialized.
