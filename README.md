@@ -2,13 +2,32 @@
 This project is based on a system for managing fluid guns, allowing for the addition of new guns, gun addons, and fluid tanks. Guns and tanks can be spawned by a spawner, picked up by the player, and refilled at fluid sources.
 <br />
 
+
+
 ### Table of Content:
+[General Overview](#general-overview)<br />
+[Controls](#controls)<br />
 [Creating a Fluid Gun Data Asset](#creating-a-fluid-gun-data-asset)<br />
 [Creating a Tank Data Asset](#creating-a-tank-data-asset)<br />
 [Setting Up Spawner](#setting-up-spawner)<br />
 [Creating an Addon](#creating-an-addon)<br />
 [Creating a Fluid Source](#creating-a-fluid-source)<br />
 [Set Up a Slot for the New Fluid Gun](#set-up-a-slot-for-the-new-fluid-gun)<br />
+
+## General Overview
+
+The player can pick up a fluid gun, but to use it, they must also pick up a tank. Once collected, they will need to select it from the tank selection menu (unless the fluid gun has its own tank, in which case it can be used immediately).<br />
+At the top of the screen, there is a bar that indicates the amount and type of fluid in the tank. If the fluid in the tank runs out, it can be replenished at the appropriate fluid source.<br />
+Each fluid gun has a specific pressure level, which is also displayed on the bar. After each shot (unless the pressure level is set to constant), this level decreases, affecting the fluid gun's range. By using a pump addon, the pressure in the gun can be increased.<br />
+
+## Controls
+- **Left Mouse Button** - Fire<br />
+- **Scroll Wheel** - Change to the next or previous fluid gun<br />
+- **R** - Tank selection menu<br />
+- **E** - Use<br />
+- **Space** - Pump<br />
+- **1** - Change to a pistol<br />
+- **2** - Change to a rifle<br />
 
 ## Creating a Fluid Gun Data Asset.
 Create a data asset that inherits from **FG_PDA_FluidGun**, and set the parameters and properties of the gun.<br />
