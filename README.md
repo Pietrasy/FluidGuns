@@ -29,7 +29,7 @@ Each fluid gun has a specific pressure level, which is also displayed on the bar
 - **1** - Change to a pistol<br />
 - **2** - Change to a rifle<br />
 
-## Creating a Fluid Gun Data Asset.
+## Creating a Fluid Gun Data Asset
 Create a data asset that inherits from **FG_PDA_FluidGun**, and set the parameters and properties of the gun.<br />
 ![Creating Fluid Gun DA](https://github.com/user-attachments/assets/5e0ef761-0efa-46d8-bce2-4aa3daf65730)
 ![2  Setup Fluid Gun DA 2](https://github.com/user-attachments/assets/a2d98cfb-e4cb-4703-86a3-cc33693c40ad)
@@ -41,28 +41,28 @@ Create a data asset that inherits from **FG_PDA_FluidGun**, and set the paramete
 
 [Back to top](#table-of-content)
 
-## Creating a Tank Data Asset.
+## Creating a Tank Data Asset
 Create a data asset that inherits from **FG_PDA_Tank** and set the parameters and properties of the tank.<br />
 ![5  Creating Tank DA](https://github.com/user-attachments/assets/525d818b-9075-4e7b-9b3f-0c179fd81d5e)
 ![6  Setup Tank DA 2](https://github.com/user-attachments/assets/5d3de5a7-9f50-4c63-89cf-be161bdc0965)
 
 [Back to top](#table-of-content)
 
-## Setting Up Spawner. 
+## Setting Up Spawner
 Place the **BP_Spawner** in the level and set the item to spawn.<br />
 ![7  Set DA on Spawner](https://github.com/user-attachments/assets/a1e80835-6414-4a1d-8d37-41421dc2666c)
 
 
 [Back to top](#table-of-content)
 
-## Creating an Addon.
+## Creating an Addon
 Create a blueprint class for **BP_Addons** and configure its properties.<br />
 ![8  Creating child addon](https://github.com/user-attachments/assets/83dd2227-3993-49d6-be71-30d115007ca6)
 ![9  Setup addon](https://github.com/user-attachments/assets/c27b2174-c81c-4673-b102-c029b8fd27b7)
 
 [Back to top](#table-of-content)
 
-## Creating a Fluid Source.
+## Creating a Fluid Source
 Place the **BP_FluidSource** in the level and set a gameplay tag for the fluid type.<br />
 ![10  Set fluid type to Fluid Source](https://github.com/user-attachments/assets/ba337cf2-9a4f-40b4-9aaf-25442aad06e9)
 <br />Add a new row to **DT_FluidColors** and choose a color for the gameplay tag.<br />
