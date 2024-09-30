@@ -69,6 +69,10 @@ void AFG_FluidGun::Fire_Implementation(bool& bCanShot)
 	bCanFire = false;
 	// Set timer to time next shot based on FireRate.
 	const UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		UE_LOG(LogTemp, Error, TEXT("AFG_FluidGun::Fire_Implementation - Invalid World"))
+	}
 	World->GetTimerManager().SetTimer(FireDelayTimerHandle, this, &AFG_FluidGun::SetFire, FluidGunParameters.FireRate, false);
 	/* RANGE CALCULATION */
 	// Range depends on current pressure level and BaseRange.

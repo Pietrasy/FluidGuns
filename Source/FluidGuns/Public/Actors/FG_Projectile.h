@@ -16,7 +16,8 @@ class FLUIDGUNS_API AFG_Projectile : public AActor
 
 public:
 	AFG_Projectile();
-	
+
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Projectile")
 	UProjectileMovementComponent* ProjectileComponent = nullptr;
 

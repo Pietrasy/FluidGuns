@@ -13,10 +13,10 @@ UCLASS()
 class FLUIDGUNS_API AFG_FluidSource : public AActor
 {
 	GENERATED_BODY()
-
 public:
 	AFG_FluidSource();
-
+	
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="FluidSource")
 	TObjectPtr<USphereComponent> SphereCollision = nullptr;
 

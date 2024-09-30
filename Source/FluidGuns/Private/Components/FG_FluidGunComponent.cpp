@@ -129,6 +129,10 @@ void UFG_FluidGunComponent::ChangeTank(const FGameplayTag TankTag)
 	});
 	// Set up tank for fluid gun and assign tag of new tank to current fluid gun.
 	CurrentGun->SetTank(GetCurrentTank());
+	if (!CurrentFluidGunIndex.IsSet())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::ChangeTank - CurrentFluidGunIndex isn't set"))
+	}
 	OwnedGuns[CurrentFluidGunIndex.GetValue()].AttachedTank = TankTag;
 	// Update widget with values of tank parameters.
 	OnTankUpdate.Broadcast(OwnedTanks[CurrentTankIndex.GetValue()].TankData.MaxFluidAmount, OwnedTanks[CurrentTankIndex.GetValue()].TankData.FluidAmount, CurrentGun->Tank.GameplayTag);
@@ -137,6 +141,10 @@ void UFG_FluidGunComponent::ChangeTank(const FGameplayTag TankTag)
 void UFG_FluidGunComponent::OnGunUpdate(float PressureLevel, float FluidAmount)
 {
 	// Override pressure level of fluid gun in OwnedGuns with value from OnFluidGunUpdate delegate.
+	if (!CurrentFluidGunIndex.IsSet())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::OnGunUpdate - CurrentFluidGunIndex isn't set"))
+	}
 	OwnedGuns[CurrentFluidGunIndex.GetValue()].FluidGunData.Pressure = PressureLevel;
 	const float Pressure = OwnedGuns[CurrentFluidGunIndex.GetValue()].FluidGunData.Pressure;
 	float Fluid = 0.f;
