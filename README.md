@@ -13,6 +13,7 @@ This project is based on a system for managing fluid guns, allowing for the addi
 [Creating an Addon](#creating-an-addon)<br />
 [Creating a Fluid Source](#creating-a-fluid-source)<br />
 [Set Up a Slot for the New Fluid Gun](#set-up-a-slot-for-the-new-fluid-gun)<br />
+[Code Snipppets](#code-snippets)<br />
 
 ## General Overview
 https://github.com/user-attachments/assets/197d2a53-8a1c-43e3-83af-7afb6562e335
@@ -79,3 +80,103 @@ Add input to **IMC_FluidGunComponent.**<br />
 
 [Back to top](#table-of-content)
 
+## Code Snippets
+Checks whether the gun can fire based on tank condition, pressure level and fluid availability.<br />
+Sets a timer that disables firing for a specified time in FireRate.<br />
+Calculates dynamic range based on current pressure.<br /> 
+Handles fluid consumption and pressure per shot.<br /> 
+Triggers UpdateGun() to update weapon parameters and synchronize status in the user interface.<br />
+```cpp
+void AFG_FluidGun::Fire_Implementation(bool& bCanShot)
+{
+	// If ShotsNumber is less than or equal to zero, tank is not attached, pressure or fluid amount is less than or equal to zero, or bCanFire is false, then do not allow firing.
+	if (FluidGunParameters.ShotsNumber <= 0 || !bHasTank || FluidGunParameters.Pressure <= 0.f || Tank.TankData.FluidAmount <= 0.f || !bCanFire)
+	{
+		if (bCanFire) UE_LOG(LogTemp, Log, TEXT("AFG_FluidGun::Fire_Implementation() - It is not possible to fire. "));
+		return;
+	}
+	// Set output parameter and set flag that is responsible for shot to false.
+	bCanShot = bCanFire;
+	bCanFire = false;
+	// Set timer to time next shot based on FireRate.
+	const UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		UE_LOG(LogTemp, Error, TEXT("AFG_FluidGun::Fire_Implementation - Invalid World"))
+	}
+	World->GetTimerManager().SetTimer(FireDelayTimerHandle, this, &AFG_FluidGun::SetFire, FluidGunParameters.FireRate, false);
+	/* RANGE CALCULATION */
+	// Range depends on current pressure level and BaseRange.
+	FluidGunParameters.Range = FluidGunParameters.Pressure * FluidGunParameters.BaseRange;
+	/* PRESSURE CALCULATION */
+	// Check if fluid gun has constant pressure.
+	if (!bIsPressureConst)
+	{
+		// Calculate pressure cost from the formula.
+		const float PressureCostFormula = FluidGunParameters.MaxPressure / (FluidGunParameters.ShotsNumber * 0.25f);
+		// If PressureCost is less than one, set value to one.
+		float PressureCost = PressureCostFormula < 1 ? PressureCost = 1 : PressureCostFormula;
+		// Subtract PressureCost from current pressure level and clamp subtraction result.
+		const float ClampValue = FluidGunParameters.Pressure - PressureCost;
+		FluidGunParameters.Pressure = FMath::Clamp(ClampValue, 0, FluidGunParameters.MaxPressure);
+	}
+	/* FLUID CALCULATION */
+	// Calculate FluidCost from formula.
+	const float FluidCost = Tank.TankData.MaxFluidAmount / FluidGunParameters.ShotsNumber;
+	// Subtract fluid cost from current fluid amount and clamp subtraction result.
+	const float ClampValue = Tank.TankData.FluidAmount - FluidCost;
+	Tank.TankData.FluidAmount = FMath::Clamp(ClampValue, 0, Tank.TankData.MaxFluidAmount);
+	UpdateGun();
+}
+```
+-----------
+The method handles dynamic switching between fluid tanks, which we select from the menu.<br /> 
+We have given the function a gameplay tag of the liquid and it searches the OwnedTanks array to find a matching tank in the inventory.<br />
+Assigns a new tank to the current fluid gun.<br /> 
+Uses a delegate to update the widget showing the amount of fluid in the tank.<br />
+
+```cpp
+void AFG_FluidGun::Fire_Implementation(bool& bCanShot)
+{
+	// If ShotsNumber is less than or equal to zero, tank is not attached, pressure or fluid amount is less than or equal to zero, or bCanFire is false, then do not allow firing.
+	if (FluidGunParameters.ShotsNumber <= 0 || !bHasTank || FluidGunParameters.Pressure <= 0.f || Tank.TankData.FluidAmount <= 0.f || !bCanFire)
+	{
+		if (bCanFire) UE_LOG(LogTemp, Log, TEXT("AFG_FluidGun::Fire_Implementation() - It is not possible to fire. "));
+		return;
+	}
+	// Set output parameter and set flag that is responsible for shot to false.
+	bCanShot = bCanFire;
+	bCanFire = false;
+	// Set timer to time next shot based on FireRate.
+	const UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		UE_LOG(LogTemp, Error, TEXT("AFG_FluidGun::Fire_Implementation - Invalid World"))
+	}
+	World->GetTimerManager().SetTimer(FireDelayTimerHandle, this, &AFG_FluidGun::SetFire, FluidGunParameters.FireRate, false);
+	/* RANGE CALCULATION */
+	// Range depends on current pressure level and BaseRange.
+	FluidGunParameters.Range = FluidGunParameters.Pressure * FluidGunParameters.BaseRange;
+	/* PRESSURE CALCULATION */
+	// Check if fluid gun has constant pressure.
+	if (!bIsPressureConst)
+	{
+		// Calculate pressure cost from the formula.
+		const float PressureCostFormula = FluidGunParameters.MaxPressure / (FluidGunParameters.ShotsNumber * 0.25f);
+		// If PressureCost is less than one, set value to one.
+		float PressureCost = PressureCostFormula < 1 ? PressureCost = 1 : PressureCostFormula;
+		// Subtract PressureCost from current pressure level and clamp subtraction result.
+		const float ClampValue = FluidGunParameters.Pressure - PressureCost;
+		FluidGunParameters.Pressure = FMath::Clamp(ClampValue, 0, FluidGunParameters.MaxPressure);
+	}
+	/* FLUID CALCULATION */
+	// Calculate FluidCost from formula.
+	const float FluidCost = Tank.TankData.MaxFluidAmount / FluidGunParameters.ShotsNumber;
+	// Subtract fluid cost from current fluid amount and clamp subtraction result.
+	const float ClampValue = Tank.TankData.FluidAmount - FluidCost;
+	Tank.TankData.FluidAmount = FMath::Clamp(ClampValue, 0, Tank.TankData.MaxFluidAmount);
+	UpdateGun();
+}
+```
+
+[Back to top](#table-of-content)
