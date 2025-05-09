@@ -37,7 +37,7 @@ Create a data asset that inherits from **FG_PDA_FluidGun**, and set the paramete
 ![2  Setup Fluid Gun DA 2](https://github.com/user-attachments/assets/a2d98cfb-e4cb-4703-86a3-cc33693c40ad)
 <br />If an [addon is created](#creating-an-addon), it can be added to the gun.<br />
 ![4  Set Addon](https://github.com/user-attachments/assets/e9b831d3-6622-4eb4-b3cd-fd7584866631)
-<br />The action determines which function is performed when the item is picked up.<br />
+<br />The action determines which function is performed when the item is picked up. We now creating a fluid gun so select "**Add Fluid Gun Action**".<br />
 ![3  Set Action](https://github.com/user-attachments/assets/433a7d5f-5a9d-4bf6-8a26-23e0c89f3c7c)
 
 
