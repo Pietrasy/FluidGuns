@@ -15,8 +15,8 @@ This project is based on a system for managing fluid guns, allowing for the addi
 [Set Up a Slot for the New Fluid Gun](#set-up-a-slot-for-the-new-fluid-gun)<br />
 
 ## General Overview
+https://github.com/user-attachments/assets/197d2a53-8a1c-43e3-83af-7afb6562e335
 
-[Video project presentation.](https://www.youtube.com/watch?v=AoT6KkEh9pA)<br />
 The player can pick up a fluid gun, but to use it, they must also pick up a tank. Once collected, they will need to select it from the tank selection menu (unless the fluid gun has its own tank, in which case it can be used immediately).<br />
 At the top of the screen, there is a bar that indicates the amount and type of fluid in the tank. If the fluid in the tank runs out, it can be replenished at the appropriate fluid source.<br />
 Each fluid gun has a specific pressure level, which is also displayed on the bar. After each shot (unless the pressure level is set to constant), this level decreases, affecting the fluid gun's range. By using a pump addon, the pressure in the gun can be increased.<br />
