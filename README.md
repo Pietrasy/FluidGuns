@@ -18,9 +18,10 @@ This project is based on a system for managing fluid guns, allowing for the addi
 ## General Overview
 https://github.com/user-attachments/assets/197d2a53-8a1c-43e3-83af-7afb6562e335
 
-The player can pick up a fluid gun, but to use it, they must also pick up a tank. Once collected, they will need to select it from the tank selection menu (unless the fluid gun has its own tank, in which case it can be used immediately).<br />
+The player can pick up a fluid gun, but to use it, they must also pick up a tank. Once collected, they must select it from the tank selection menu (unless the fluid gun has its own tank, in which case it can be used immediately).<br />
 At the top of the screen, there is a bar that indicates the amount and type of fluid in the tank. If the fluid in the tank runs out, it can be replenished at the appropriate fluid source.<br />
-Each fluid gun has a specific pressure level, which is also displayed on the bar. After each shot (unless the pressure level is set to constant), this level decreases, affecting the fluid gun's range. By using a pump addon, the pressure in the gun can be increased.<br />
+Each fluid gun has a specific pressure level, which is also displayed on the bar. After each shot (unless the pressure level is set to constant), this level decreases, affecting the fluid gun's range. Using a pump addon, the pressure in the gun can be increased.
+<br />
 
 ## Controls
 - **Left Mouse Button** - Fire<br />
@@ -136,46 +137,36 @@ Assigns a new tank to the current fluid gun.<br />
 Uses a delegate to update the widget showing the amount of fluid in the tank.<br />
 
 ```cpp
-void AFG_FluidGun::Fire_Implementation(bool& bCanShot)
+void UFG_FluidGunComponent::ChangeTank(const FGameplayTag TankTag)
 {
-	// If ShotsNumber is less than or equal to zero, tank is not attached, pressure or fluid amount is less than or equal to zero, or bCanFire is false, then do not allow firing.
-	if (FluidGunParameters.ShotsNumber <= 0 || !bHasTank || FluidGunParameters.Pressure <= 0.f || Tank.TankData.FluidAmount <= 0.f || !bCanFire)
+	// If CurrentGun isn't valid, do not allow change tank.
+	if (!IsValid(CurrentGun))
 	{
-		if (bCanFire) UE_LOG(LogTemp, Log, TEXT("AFG_FluidGun::Fire_Implementation() - It is not possible to fire. "));
+		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::ChangeTank - CurrentGun isn't valid"))
 		return;
 	}
-	// Set output parameter and set flag that is responsible for shot to false.
-	bCanShot = bCanFire;
-	bCanFire = false;
-	// Set timer to time next shot based on FireRate.
-	const UWorld* World = GetWorld();
-	if (!IsValid(World))
+	// Check whether fluid gun has own tank.
+	if (CurrentGun->bHasOwnTank)
 	{
-		UE_LOG(LogTemp, Error, TEXT("AFG_FluidGun::Fire_Implementation - Invalid World"))
+		// Reset CurrentTankIndex to become uninitialised
+		CurrentTankIndex.Reset();
+		return;
 	}
-	World->GetTimerManager().SetTimer(FireDelayTimerHandle, this, &AFG_FluidGun::SetFire, FluidGunParameters.FireRate, false);
-	/* RANGE CALCULATION */
-	// Range depends on current pressure level and BaseRange.
-	FluidGunParameters.Range = FluidGunParameters.Pressure * FluidGunParameters.BaseRange;
-	/* PRESSURE CALCULATION */
-	// Check if fluid gun has constant pressure.
-	if (!bIsPressureConst)
+	// Check array for element with specified tag and, if so, returns its index.
+	CurrentTankIndex = OwnedTanks.IndexOfByPredicate([&TankTag](const FTankProperties& Tank)
 	{
-		// Calculate pressure cost from the formula.
-		const float PressureCostFormula = FluidGunParameters.MaxPressure / (FluidGunParameters.ShotsNumber * 0.25f);
-		// If PressureCost is less than one, set value to one.
-		float PressureCost = PressureCostFormula < 1 ? PressureCost = 1 : PressureCostFormula;
-		// Subtract PressureCost from current pressure level and clamp subtraction result.
-		const float ClampValue = FluidGunParameters.Pressure - PressureCost;
-		FluidGunParameters.Pressure = FMath::Clamp(ClampValue, 0, FluidGunParameters.MaxPressure);
+		// Lambda checks tag match for each element in array.
+		return Tank.GameplayTag.MatchesTag(TankTag);
+	});
+	// Set up tank for fluid gun and assign tag of new tank to current fluid gun.
+	CurrentGun->SetTank(GetCurrentTank());
+	if (!CurrentFluidGunIndex.IsSet())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::ChangeTank - CurrentFluidGunIndex isn't set"))
 	}
-	/* FLUID CALCULATION */
-	// Calculate FluidCost from formula.
-	const float FluidCost = Tank.TankData.MaxFluidAmount / FluidGunParameters.ShotsNumber;
-	// Subtract fluid cost from current fluid amount and clamp subtraction result.
-	const float ClampValue = Tank.TankData.FluidAmount - FluidCost;
-	Tank.TankData.FluidAmount = FMath::Clamp(ClampValue, 0, Tank.TankData.MaxFluidAmount);
-	UpdateGun();
+	OwnedGuns[CurrentFluidGunIndex.GetValue()].AttachedTank = TankTag;
+	// Update widget with values of tank parameters.
+	OnTankUpdate.Broadcast(OwnedTanks[CurrentTankIndex.GetValue()].TankData.MaxFluidAmount, OwnedTanks[CurrentTankIndex.GetValue()].TankData.FluidAmount, CurrentGun->Tank.GameplayTag);
 }
 ```
 
