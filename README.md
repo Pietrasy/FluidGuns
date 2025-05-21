@@ -13,7 +13,7 @@ This project is based on a system for managing fluid guns, allowing for the addi
 [Creating an Addon](#creating-an-addon)<br />
 [Creating a Fluid Source](#creating-a-fluid-source)<br />
 [Set Up a Slot for the New Fluid Gun](#set-up-a-slot-for-the-new-fluid-gun)<br />
-[Code Snipppets](#code-snippets)<br />
+[Code Snippets](#code-snippets)<br />
 
 ## General Overview
 https://github.com/user-attachments/assets/197d2a53-8a1c-43e3-83af-7afb6562e335
