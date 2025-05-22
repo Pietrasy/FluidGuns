@@ -1,5 +1,5 @@
 # Fluid Guns
-This project is based on a system for managing fluid guns, allowing for the addition of new guns, gun addons, and fluid tanks. Guns and tanks can be spawned by a spawner, picked up by the player, and refilled at fluid sources.
+The project is based on a system for managing fluid guns, allowing for the addition of new guns, addons, and fluid tanks. Guns and tanks can be spawned through a spawner, picked up by the player, and refilled at fluid sources.
 <br />
 
 
