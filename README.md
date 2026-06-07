@@ -103,7 +103,7 @@ void AFG_FluidGun::Fire_Implementation(bool& bCanShot)
 	const UWorld* World = GetWorld();
 	if (!IsValid(World))
 	{
-		UE_LOG(LogTemp, Error, TEXT("AFG_FluidGun::Fire_Implementation - Invalid World"))
+		UE_LOG(LogFluidGun, Error, TEXT("[%hs] - Invalid World"), __FUNCTION__);)
 	}
 	World->GetTimerManager().SetTimer(FireDelayTimerHandle, this, &AFG_FluidGun::SetFire, FluidGunParameters.FireRate, false);
 	/* RANGE CALCULATION */
@@ -142,7 +142,7 @@ void UFG_FluidGunComponent::ChangeTank(const FGameplayTag TankTag)
 	// If CurrentGun isn't valid, do not allow change tank.
 	if (!IsValid(CurrentGun))
 	{
-		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::ChangeTank - CurrentGun isn't valid"))
+		UE_VLOG_UELOG(LogFluidGun, Error, TEXT("[%hs] - CurrentGun isn't valid"), __FUNCTION__);
 		return;
 	}
 	// Check whether fluid gun has own tank.
@@ -162,7 +162,7 @@ void UFG_FluidGunComponent::ChangeTank(const FGameplayTag TankTag)
 	CurrentGun->SetTank(GetCurrentTank());
 	if (!CurrentFluidGunIndex.IsSet())
 	{
-		UE_LOG(LogTemp, Error, TEXT("UFG_FluidGunComponent::ChangeTank - CurrentFluidGunIndex isn't set"))
+		UE_VLOG_UELOG(LogFluidGun, Error, TEXT("[%hs] - CurrentFluidGunIndex isn't set"), __FUNCTION__);
 	}
 	OwnedGuns[CurrentFluidGunIndex.GetValue()].AttachedTank = TankTag;
 	// Update widget with values of tank parameters.
